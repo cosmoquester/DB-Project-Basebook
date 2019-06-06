@@ -1,0 +1,49 @@
+{% extends "layout.html" %} {% block content %}
+
+<!-- main col right -->
+<div class="col-sm-7">
+
+
+    <div class="panel panel-default">
+        <div class="panel-thumbnail"><img src="static/profiles/{{ profile }}" class="img-responsive"></div>
+        <div class="panel-body">
+            <p class="lead"> {{ name }} </p>
+            <p>나이: {{ age }}</p>
+            <p>전화번호: {{ phone }}</p>
+
+            {% if oneself %}
+            <hr>
+            <form action="profile_update" method="POST" enctype="multipart/form-data">
+                <label>Profile Change</label>
+                <input type="file" name="profile_photo"><br/>
+                <button class='btn btn-primary' style="font-family:'Malgun Gothic';" type="submit">변경</button>
+            </form>
+            <hr>
+            <form action="delete_account" method="POST" enctype="multipart/form-data">
+                <button class='btn btn-primary' style="font-family:'Malgun Gothic';" type="submit">회원탈퇴</button>
+            </form>
+
+            {% elif not isfriend %}
+            <hr>
+            <form action="add_friend" method="POST">
+                <input type="hidden" value="{{ uid }}" name=uid>
+                <button class='btn btn-primary' style="font-family:'Malgun Gothic';" type="submit">친구추가하기</button> 
+            </form>
+
+            {% else %}
+            <hr>
+            <form action="delete_friend" method="POST">
+                <input type="hidden" value="{{ uid }}" name=uid>
+                <button class='btn btn-primary' style="font-family:'Malgun Gothic';" type="submit">친구삭제하기</button> 
+            </form>
+            {% endif %}
+                <!-- <p>
+                <img src="static/assets/img/photo.jpg" height="28px" width="28px">
+            </p> -->
+        </div>
+    </div>
+
+</div>
+</div>
+
+{% endblock %}
