@@ -99,7 +99,9 @@
         }
 
         function deleteP(pid) {
-            var opts = {
+            if(confirm('정말 삭제하시겠습니까?')==true)
+            {
+                var opts = {
                 method: 'post',
                 body: JSON.stringify({
                     pid: pid,
@@ -112,7 +114,10 @@
             fetch('/delete', opts)
                 .then(function(response) {
                     location.reload();
-                })
+                })   
+            alert('삭제되었습니다.')
+            }
+
         }
 
         function deleteC(pid, cid) {

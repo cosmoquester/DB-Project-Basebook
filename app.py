@@ -352,7 +352,7 @@ def delete_acc():
     execute_sql("delete from Friends where user='{0}' or friend='{0}'".format(user))
     execute_sql("delete from User where uid='{}'".format(user))
 
-    return '<script>location.href="/login"</script>'
+    return '<script>alert("계정 삭제가 완료되었습니다");location.href="/login"</script>'
 
 
 if __name__ == '__main__':

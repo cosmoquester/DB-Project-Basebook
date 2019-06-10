@@ -19,7 +19,7 @@
                 <button class='btn btn-primary' style="font-family:'Malgun Gothic';" type="submit">변경</button>
             </form>
             <hr>
-            <form action="delete_account" method="POST" enctype="multipart/form-data">
+            <form action="delete_account" method="POST" enctype="multipart/form-data" onsubmit="return confirm('정말 탈퇴하시겠습니까? 모든 정보는 삭제됩니다.')">
                 <button class='btn btn-primary' style="font-family:'Malgun Gothic';" type="submit">회원탈퇴</button>
             </form>
 
@@ -34,7 +34,7 @@
             <hr>
             <form action="delete_friend" method="POST">
                 <input type="hidden" value="{{ uid }}" name=uid>
-                <button class='btn btn-primary' style="font-family:'Malgun Gothic';" type="submit">친구삭제하기</button> 
+                <button class='btn btn-primary' style="font-family:'Malgun Gothic';" type="submit" onsubmit="return confirm('친구 목록에서 삭제하시겠습니까?')">친구삭제하기</button> 
             </form>
             {% endif %}
                 <!-- <p>
