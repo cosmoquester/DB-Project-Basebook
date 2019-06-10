@@ -17,17 +17,22 @@ mysql = MySQL(app)
 sessions = {}
 
 def execute_sql(sql):
-    connection = mysql.get_db()
-    cur = connection.cursor()
-    cur.execute(sql)
+    try:
+        connection = mysql.get_db()
+        cur = connection.cursor()
+        result = cur.execute(sql)
 
-    if sql[:6]=='select':
-        cur.close()
+        if sql[:6]=='select':
+            cur.close()
 
-        return cur.fetchall()
-    else:
-        connection.commit()
-        cur.close()
+            return cur.fetchall()
+        else:
+            connection.commit()
+            cur.close()
+
+            return result
+    except:
+        return False
 
 
 @app.route('/')
@@ -167,9 +172,12 @@ def signup_request():
 
     sql = "insert into User(uid, password, name, age, phone, profile) values ('{}', '{}', '{}', {}, '{}', 'default.png')".format(
         request.form['id'], request.form['pass'], request.form['name'], request.form['age'], request.form['phone'])
-    execute_sql(sql)
 
-    return '<script>location.href="/login"</script>'
+    if execute_sql(sql):
+        return '<script>alert("가입이 완료되었습니다");location.href="/login"</script>'
+    else:
+        return '<script>alert("오류가 발생했습니다. 올바른 정보를 입력하세요");location.href="/login"</script>'
+
 
 @app.route('/login')
 def login():
