@@ -29,7 +29,7 @@
             <form action="write_comment" method="POST">
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <button class="btn btn-default" id='likeN-{{ post[3] }}' type='None' value={{ post[7] }}>+{{ post[7] }}</button>
+                        <button class="btn btn-default" id='likeN-{{ post[3] }}' type='button' value={{ post[7] }}>+{{ post[7] }}</button>
                         <button class="btn btn-default" id='like-{{ post[3] }}' type='button' onclick="toggle('{{ post[3] }}')">{% if post[6]==0 %}♡{% else %}♥{% endif %}</button></div>
                     <input type="hidden" value="{{ post[3] }}" name="pid">
                     <input class="form-control" placeholder="Add a comment.." type="text" name="content">
