@@ -207,7 +207,8 @@ def login_req():
         sessions[sess_id] = request.form['id']
 
         if 'remember' in request.form:
-            execute_sql('insert into Preserved_Sess(sess_id, ip_addr) values("{}", "{}")'.format(sess_id, request.remote_addr))
+            execute_sql('insert into Preserved_Sess(uid, sess_id, ip_addr) values("{}", "{}", "{}")'.format(request.form['id'], sess_id, request.remote_addr))
+
 
     else:
         resp = '<script>alert("ID또는 비밀번호가 일치하지 않습니다.");location.href="/login"</script>'
