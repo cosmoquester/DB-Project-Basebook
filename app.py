@@ -43,7 +43,7 @@ def index():
 
     if not sess_id or sess_id not in sessions:
         return '<script>alert("로그인 해주세요.");location.href="/login"</script>'
-
+    
     sql = "select name, content, datetime, Post.pid, uid, profile, '{0}' in (select liker from Postlike where Post.pid=Postlike.pid), count(liker), uid='{0}' \
         from Post\
             join User on User.uid=Post.poster\
@@ -182,6 +182,15 @@ def signup_request():
 @app.route('/login')
 def login():
 
+    results = execute_sql('select sess_id from Preserved_Sess where ip_addr="{}"'.format(request.remote_addr))
+
+    if results and results[0]:
+        print(results)
+        resp = make_response("<script>location.href='/'</script>")
+        resp.set_cookie('SESSION_ID', results[0][0])
+        
+        return resp
+
     return render_template(
         'login.html'
     )
@@ -197,6 +206,9 @@ def login_req():
         resp.set_cookie('SESSION_ID', sess_id)
         sessions[sess_id] = request.form['id']
 
+        if 'remember' in request.form:
+            execute_sql('insert into Preserved_Sess(sess_id, ip_addr) values("{}", "{}")'.format(sess_id, request.remote_addr))
+
     else:
         resp = '<script>alert("ID또는 비밀번호가 일치하지 않습니다.");location.href="/login"</script>'
 
@@ -208,6 +220,8 @@ def logout():
 
     if sess_id in sessions:
         del sessions[sess_id]
+    
+    execute_sql('delete from Preserved_Sess where sess_id="{}" and ip_addr="{}"'.format(sess_id, request.remote_addr))
     
     resp = make_response('<script>location.href="/login"</script>')
     resp.set_cookie('SESSION_ID', '')
